@@ -1,14 +1,16 @@
 package test.domain;
 
 
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
 import test.domain.embedded.TimeStamps;
 
 import javax.persistence.*;
-import java.util.Date;
 
-@Data
+
+@Getter
 @Entity
+@Builder
 public class Article {
     @Id
     @GeneratedValue
@@ -25,6 +27,9 @@ public class Article {
     private TimeStamps timeStamps;  //생성, 수정일자
     private Long viewCount;  //게시글 조회수
     private String category; //카테고리
+
+    protected Article() {}
+
 
 
 }

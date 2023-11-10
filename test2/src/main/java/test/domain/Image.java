@@ -1,10 +1,11 @@
 package test.domain;
 
 import lombok.Data;
+import lombok.Getter;
 
 import javax.persistence.*;
 
-@Data
+@Getter
 @Entity
 public class Image {
     @Id

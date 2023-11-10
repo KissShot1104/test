@@ -1,14 +1,19 @@
 package test.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-@Data
+@Getter
 @Entity
+@AllArgsConstructor
+@Builder
 public class Member {
     @Id
     @GeneratedValue
@@ -19,4 +24,7 @@ public class Member {
     private String password;    //비밀번호
     private String nickname;    //닉네임
     private String email;       //이메일
+
+    protected Member() {}
+
 }

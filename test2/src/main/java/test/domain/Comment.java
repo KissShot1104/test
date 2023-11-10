@@ -1,11 +1,12 @@
 package test.domain;
 
 import lombok.Data;
+import lombok.Getter;
 import test.domain.embedded.TimeStamps;
 
 import javax.persistence.*;
 
-@Data
+@Getter
 @Entity
 public class Comment {
 
