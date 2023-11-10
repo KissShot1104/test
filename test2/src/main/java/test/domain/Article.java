@@ -1,6 +1,7 @@
 package test.domain;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import test.domain.embedded.TimeStamps;
@@ -11,6 +12,7 @@ import javax.persistence.*;
 @Getter
 @Entity
 @Builder
+@AllArgsConstructor
 public class Article {
     @Id
     @GeneratedValue

@@ -32,4 +32,20 @@ public class ArticleRepository {
                 .getResultList();
     }
 
+    public void update(String title, String content, String category, Long id) {
+
+        //setter를 포기하고 이렇게 쿼리문을 만들어야 하는가???
+        em.createQuery("UPDATE Article a SET a.title = :title, a.content = :content, a.category = :category WHERE a.id = :id")
+                .setParameter("title", title)
+                .setParameter("content", content)
+                .setParameter("category", category)
+                .setParameter("id", id)
+                .executeUpdate();
+
+        //merge를 사용해야 하나?
+    }
+
+    public void delete(Long id) {
+        em.remove(findOne(id));
+    }
 }

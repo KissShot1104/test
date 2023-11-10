@@ -5,10 +5,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import test.controller.article.ArticleDTO;
 import test.domain.Article;
+import test.domain.Member;
 import test.repository.ArticleRepository;
 import test.repository.MemberRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,20 +19,38 @@ public class ArticleService {
     private final ArticleRepository articleRepository;
     private final MemberRepository memberRepository;
 
-    /*@Transactional(readOnly = false)
-    public void saveArticle(ArticleDTO articleDTO) {
+    @Transactional(readOnly = false)
+    public void saveArticle(ArticleDTO articleDTO, Long memberId) {
 
-        //Article article = Article.builder();
+        Member member = memberRepository.findOne(memberId);
 
-        articleRepository.save(article);
-    }*/
-
-    public void saveArticle(Article article) {
-
-        //Article article = Article.builder();
+        Article article = Article.builder()
+                .member(member)
+                .title(articleDTO.getTitle())
+                .content(articleDTO.getContent())
+                .category(articleDTO.getCategory())
+                .timeStamps(null).build();
 
         articleRepository.save(article);
     }
+
+
+    @Transactional(readOnly = false)
+    public void updateArticle(ArticleDTO articleDTO, Long articleId) {
+        articleRepository.update(
+                articleDTO.getTitle(),
+                articleDTO.getContent(),
+                articleDTO.getCategory(),
+                articleId
+        );
+
+    }
+
+    @Transactional(readOnly = false)
+    public void deleteArticle(Long id) {
+        articleRepository.delete(id);
+    }
+
 
     public List<Article> findAll() {
         return articleRepository.findAll();
