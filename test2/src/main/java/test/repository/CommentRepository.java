@@ -34,4 +34,24 @@ public class CommentRepository {
                 .getResultList();
     }
 
+    public void modifyComment(Long commentId, String content) {
+        em.createQuery("update Comment c set c.content = :content where c.id = :commentId")
+                .setParameter("content", content)
+                .setParameter("commentId", commentId)
+                .executeUpdate();
+    }
+
+
+    public void remove(Long id){
+
+        Comment comment = findOne(id);
+        em.remove(comment);
+    }
+
+    public void removeByArticleId(Long articleId) {
+        em.createQuery("delete from Comment c where c.id = :articleId")
+                .setParameter("articleId", articleId)
+                .executeUpdate();
+    }
+
 }

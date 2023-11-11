@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Entity
 public class LikeComment {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "like_comment_id")
     private Long id;
 

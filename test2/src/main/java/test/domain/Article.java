@@ -15,7 +15,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class Article {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "article_id")
     private Long id;    //아이디
 

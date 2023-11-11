@@ -11,6 +11,8 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @Builder
 public class CommentDTO {
+//이렇게 id를 직접 넣어줘도 되나?
+    private Long id;
 
     private String memberId;
 

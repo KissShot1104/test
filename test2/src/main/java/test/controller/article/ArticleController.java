@@ -10,6 +10,7 @@ import test.domain.Article;
 import test.domain.Member;
 import test.service.ArticleService;
 import test.service.CommentService;
+import test.service.LikeArticleService;
 import test.web.SessionConst;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +22,7 @@ public class ArticleController {
 
     private final ArticleService articleService;
     private final CommentService commentService;
+    private final LikeArticleService likeArticleService;
 
     //게시글목록
     @GetMapping("/article")
@@ -72,6 +74,7 @@ public class ArticleController {
             return "/article/modifyArticle";
         }
         if (redirect.equals("delete")) {
+            commentService.removeByArticleId(articleId);
             articleService.deleteArticle(articleId);
             return "redirect:/article";
         }
@@ -79,6 +82,9 @@ public class ArticleController {
         //댓글 출력 원래 이런식으로 출력하는건가?
         List<CommentDTO> comments = commentService.printComment(articleId);
         model.addAttribute("comments", comments);
+
+        Long countLike = likeArticleService.countByArticleId(articleId);
+        model.addAttribute("countLike", countLike);
 
         return "/article/article";
     }
@@ -95,9 +101,10 @@ public class ArticleController {
 
         articleService.updateArticle(articleDTO, articleId);
 
-        return "/article/article";
+        return "redirect:/article/{articleId}";
     }
 
+    //댓글쓰는곳에 아무것도 안쓰면 검증 안하고 바로 에러남
     @PostMapping("/article/{articleId}/comment")
     public String writeComment(@Validated @ModelAttribute(name = "comment") CommentDTO comment,
                                @PathVariable Long articleId,
@@ -110,4 +117,38 @@ public class ArticleController {
 
         return "redirect:/article/{articleId}";
     }
+
+    /*@PatchMapping("/article/{articleId}/like")
+    public String likeArticle(@PathVariable Long articleId) {
+
+        likeArticleService.clickLike(likeArticleDTO);
+
+        return "redirect:/article/{articleId}";
+    }*/
+
+    //patch를 생각해보자
+    @PutMapping("/article/{articleId}/comment/{commentId}")
+    public String modifyComment(@ModelAttribute(name = "comment") CommentDTO commentDTO,
+                                @PathVariable Long articleId,
+                                @PathVariable Long commentId) {
+
+        commentService.modifyComment(commentDTO);
+
+        return "redirect:/article/{articleId}";
+    }
+
+
+    //deleteMapping 에서는 redirect를 못한다고 한다 하는 방법을 찾아내자
+    @DeleteMapping("/article/{articleId}/comment/{commentId}")
+    public String deleteComment(@PathVariable Long articleId,
+                                @PathVariable Long commentId) {
+        commentService.removeComment(commentId);
+
+        return "redirect:/article/{articleId}";
+    }
+
+
+
+
+
 }

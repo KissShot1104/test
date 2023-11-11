@@ -3,6 +3,7 @@ package test.controller.article;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import test.domain.LikeArticle;
 import test.domain.embedded.TimeStamps;
 
 import javax.persistence.Embedded;
@@ -19,6 +20,8 @@ public class ArticleDTO {
     private String content;
 
     private String category;
+
+    private LikeArticle likeArticle;
 
     @Embedded
     private TimeStamps timeStamps;
